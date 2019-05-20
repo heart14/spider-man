@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>知乎SpiderMan</title>
+    <script th:src="@{/js/jquery-3.4.1.js}" type="text/javascript"></script>
+    <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+    <link th:href="@{/css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
+</head>
+<script>
+
+    function spiderManRun(){
+        var questionId = $("#questionId").val();
+        $.ajax({
+            type: "POST",
+            url: "/spider/" + questionId,
+            success:function (data) {
+                var urlList = data;
+                console.log(urlList);
+            }
+
+        })
+    };
+
+</script>
+<style>
+
+</style>
+<body>
+<div class="i_am">
+    <input type="text" id="questionId" class="questionId" placeholder="请输入问题id">
+    <button id="spiderManRun" class="btn-info" style="border-radius:4px" onclick="spiderManRun();">Spider Man Run!</button>
+</div>
+<hr>
+<div class="spider_man">
+
+</div>
+</body>
+</html>
