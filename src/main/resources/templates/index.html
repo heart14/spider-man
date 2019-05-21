@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<meta name="referrer" content="no-referrer" />
+<meta name="referrer" content="no-referrer"/>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -10,12 +10,12 @@
 </head>
 <script>
 
-    function spiderManRun(){
+    function spiderManRun() {
         var questionId = $("#questionId").val();
         $.ajax({
             type: "GET",
             url: "/spider/" + questionId,
-            success:function (data) {
+            success: function (data) {
                 var photoContainer = $("#photoContainer");
                 if (data == null) {
                     var innerHtml = "<span>┗|｀O′|┛ 嗷~~没有图片鸭！</span>";
@@ -25,18 +25,21 @@
                 var urlList = data;
                 console.log(urlList);
                 var photoContent = "";
-                for (var i = 0;i<urlList.length;i++) {
+                for (var i = 0; i < urlList.length; i++) {
                     var url = urlList[i];
-                    photoContent += "<img src='"+url+"' style='width: 25%;height: auto'></img>";
+                    photoContent += "<img src='" + url + "' style='width: 25%;height: auto'></img>";
                 }
                 photoContainer.html(photoContent);
             }
         })
-    };
+    }
 
 </script>
 <style>
-
+    .i_am {
+        padding-top: 1%;
+        padding-left: 1%;
+    }
 </style>
 <body>
 <div class="i_am">
