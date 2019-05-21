@@ -56,8 +56,8 @@ public class FileDownloadUtils implements Runnable {
         try {
             URL url = new URL(this.url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(25 * 1000);
-            connection.setReadTimeout(25 * 1000);
+            connection.setConnectTimeout(60 * 1000);
+            connection.setReadTimeout(60 * 1000);
             int responseCode = connection.getResponseCode();
             if (responseCode != 200) {
                 logger.info("[{}][{}][{}] 下载失败，请求错误", Thread.currentThread().getName(), this.authorName, URLParseUtils.doFetchUID(this.url));
