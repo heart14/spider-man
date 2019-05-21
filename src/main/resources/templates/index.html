@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta name="referrer" content="no-referrer" />
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -12,13 +13,24 @@
     function spiderManRun(){
         var questionId = $("#questionId").val();
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/spider/" + questionId,
             success:function (data) {
+                var photoContainer = $("#photoContainer");
+                if (data == null) {
+                    var innerHtml = "<span>┗|｀O′|┛ 嗷~~没有图片鸭！</span>";
+                    photoContainer.html(innerHtml);
+                    return;
+                }
                 var urlList = data;
                 console.log(urlList);
+                var photoContent = "";
+                for (var i = 0;i<urlList.length;i++) {
+                    var url = urlList[i];
+                    photoContent += "<img src='"+url+"' style='width: 25%;height: auto'></img>";
+                }
+                photoContainer.html(photoContent);
             }
-
         })
     };
 
@@ -32,7 +44,7 @@
     <button id="spiderManRun" class="btn-info" style="border-radius:4px" onclick="spiderManRun();">Spider Man Run!</button>
 </div>
 <hr>
-<div class="spider_man">
+<div class="spider_man" id="photoContainer">
 
 </div>
 </body>
