@@ -1,6 +1,7 @@
 package com.heart.spiderman.controller;
 
 import com.heart.spiderman.model.Answer;
+import com.heart.spiderman.model.Image;
 import com.heart.spiderman.model.Spider;
 import com.heart.spiderman.utils.FileDownloadUtils;
 import com.heart.spiderman.utils.HttpUtils;
@@ -27,9 +28,9 @@ public class SpiderController {
 
     private static Logger logger = LoggerFactory.getLogger(SpiderController.class);
 
-    @GetMapping("/index")
+    @GetMapping("/spiderman")
     public ModelAndView spiderManPage() {
-        return new ModelAndView("index");
+        return new ModelAndView("spiderman");
     }
 
     /**
@@ -38,9 +39,11 @@ public class SpiderController {
      * @param questionId
      */
     @RequestMapping(value = "/spider/{questionId}", method = RequestMethod.GET)
-    @ResponseBody
-    public List<String> spiderManRun(@PathVariable("questionId") String questionId) {
+//    @ResponseBody
+    public ModelAndView spiderManRun(@PathVariable("questionId") String questionId) {
         logger.info("questionId = {}，开始获取图片......", questionId);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("spiderman");
         try {
             List<Answer> answerList = HttpUtils.spiderMan(new Spider().buildSpider(questionId));//获取所有回答
             ExecutorService executorService = Executors.newFixedThreadPool(8);//创建线程池
@@ -49,6 +52,9 @@ public class SpiderController {
             int totalEmpty = 0;//接收无图片回答数
             List<String> urls = new ArrayList<>();//接收所有图片url
             List<Map<String, String>> answerUrlMapList = new ArrayList<>();
+
+            List<Image> imageList = new ArrayList<>();
+
             String questionTitle = answerList.get(0).getQuestion().getTitle();//保存问题标题
             for (Answer answer : answerList) {//遍历所有回答，获取所有图片url集合
                 String authorName = answer.getAuthor().getName();
@@ -64,6 +70,11 @@ public class SpiderController {
                         Map<String, String> answerUrlMap = new HashMap<>();//接收authorName:url键值对
                         answerUrlMap.put("authorName", authorName);
                         answerUrlMap.put("url", url);
+
+                        Image image = new Image();
+                        image.setAuthorName(authorName);
+                        image.setUrl(url);
+                        imageList.add(image);
                         answerUrlMapList.add(answerUrlMap);
                     }
                 } else {
@@ -77,11 +88,11 @@ public class SpiderController {
                     FileDownloadUtils fileDownloadUtils = new FileDownloadUtils(questionTitle, authorName, url);
                     executorService.execute(fileDownloadUtils);
             }
-            return urls;
+            modelAndView.addObject("imageList", imageList);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return null;
+        return modelAndView;
     }
 
 }

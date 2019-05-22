@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<meta name="referrer" content="no-referrer"/>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>暗中观察</title>
+    <script th:src="@{/js/jquery-3.4.1.js}" type="text/javascript"></script>
+    <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+    <link th:href="@{/css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
+</head>
+<script>
+
+    window.onload = function () {
+        function spiderMan() {
+            var columnNum;
+            var imgWidth = 314;
+            var pageWidth = getClient().width;
+            columnNum = Math.floor(pageWidth / imgWidth);
+            console.log("columnNum = " + columnNum);
+            var lastRowHeight = [];
+            for (var n = 0; n < columnNum; n++) {
+                lastRowHeight[n] = 0;
+            }
+
+            var image = $(".lazyimage");
+            for (var i = 0; i < image.length; i++) {
+                var index = i % columnNum;
+                $(image[i]).css('left', imgWidth * index);
+                $(image[i]).css('top', lastRowHeight[i % columnNum]);
+                console.log(i + "  left=" + imgWidth * index + " ,top=" + lastRowHeight[i % columnNum]);
+                lastRowHeight[i % columnNum] += image[i].height;
+                console.log("new height = " + lastRowHeight[i % columnNum]);
+            }
+        }
+
+        spiderMan();
+
+        window.onresize = function () {
+            spiderMan();
+        };
+    };
+
+
+    function getClient() {
+        return {
+            width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+            height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        }
+    }
+
+    function spiderManRun() {
+        var questionId = $("#questionId").val();
+        window.location.href = "http://localhost:8080/spider/" + questionId;
+    }
+
+
+</script>
+<style>
+    .i_am {
+        padding-top: 1%;
+        padding-left: 1%;
+    }
+    .spider_man {
+        width: 100%;
+        position: relative;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+
+    img {
+        width: 314px;
+        padding: 1px;
+        position: absolute;
+    }
+</style>
+<body>
+<div class="i_am">
+    <input type="text" id="questionId" class="questionId" placeholder="请输入问题id" value="306181247">
+    <button id="spiderManRun" class="btn-info" style="border-radius:4px" onclick="spiderManRun();">Spider Man Run!
+    </button>
+</div>
+<hr>
+<div class="spider_man" >
+    <img class="lazyimage" th:each="image:${imageList}" th:src="${image.url}" th:alt="${image.authorName}"/>
+</div>
+
+</body>
+</html>
