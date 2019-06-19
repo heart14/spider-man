@@ -9,12 +9,16 @@ import com.heart.spiderman.utils.URLParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName:SpiderController
@@ -39,24 +43,31 @@ public class SpiderController {
      * @param questionId
      */
     @RequestMapping(value = "/spider/{questionId}", method = RequestMethod.GET)
-//    @ResponseBody
     public ModelAndView spiderManRun(@PathVariable("questionId") String questionId) {
         logger.info("questionId = {}，开始获取图片......", questionId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("spiderman");
         try {
-            List<Answer> answerList = HttpUtils.spiderMan(new Spider().buildSpider(questionId));//获取所有回答
-            ExecutorService executorService = Executors.newFixedThreadPool(8);//创建线程池
-            int totalPhoto = 0;//接收总图片数
-            int totalAnonymous = 0;//接收匿名用户数
-            int totalEmpty = 0;//接收无图片回答数
-            List<String> urls = new ArrayList<>();//接收所有图片url
+            //获取所有回答
+            List<Answer> answerList = HttpUtils.spiderMan(new Spider().buildSpider(questionId));
+            //创建线程池
+            ThreadPoolExecutor executor = new ThreadPoolExecutor(8, 16, 0L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(1024));
+            //接收总图片数
+            int totalPhoto = 0;
+            //接收匿名用户数
+            int totalAnonymous = 0;
+            //接收无图片回答数
+            int totalEmpty = 0;
+            //接收所有图片url
+            List<String> urls = new ArrayList<>();
             List<Map<String, String>> answerUrlMapList = new ArrayList<>();
 
             List<Image> imageList = new ArrayList<>();
 
-            String questionTitle = answerList.get(0).getQuestion().getTitle();//保存问题标题
-            for (Answer answer : answerList) {//遍历所有回答，获取所有图片url集合
+            //保存问题标题
+            String questionTitle = answerList.get(0).getQuestion().getTitle();
+            //遍历所有回答，获取所有图片url集合
+            for (Answer answer : answerList) {
                 String authorName = answer.getAuthor().getName();
                 if ("匿名用户".equals(authorName)) {
                     totalAnonymous += 1;
@@ -66,8 +77,10 @@ public class SpiderController {
                 if (urlListTrim != null && urlListTrim.size() > 0) {
                     totalPhoto += urlListTrim.size();
                     urls.addAll(urlListTrim);
-                    for (String url : urlListTrim) {//遍历每个问题下的图片url集合，获取authorName:url键值对保存到map
-                        Map<String, String> answerUrlMap = new HashMap<>();//接收authorName:url键值对
+                    //遍历每个问题下的图片url集合，获取authorName:url键值对保存到map
+                    for (String url : urlListTrim) {
+                        //接收authorName:url键值对
+                        Map<String, String> answerUrlMap = new HashMap<>();
                         answerUrlMap.put("authorName", authorName);
                         answerUrlMap.put("url", url);
 
@@ -85,8 +98,8 @@ public class SpiderController {
             for (Map<String, String> map : answerUrlMapList) {
                 String authorName = map.get("authorName");
                 String url = map.get("url");
-                    FileDownloadUtils fileDownloadUtils = new FileDownloadUtils(questionTitle, authorName, url);
-                    executorService.execute(fileDownloadUtils);
+                FileDownloadUtils fileDownloadUtils = new FileDownloadUtils(questionTitle, authorName, url);
+                executor.execute(fileDownloadUtils);
             }
             modelAndView.addObject("imageList", imageList);
         } catch (Exception e) {
