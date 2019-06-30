@@ -13,7 +13,7 @@ public class SpiderConfig {
      */
     public static final String ZHIHU_API = "https://www.zhihu.com/api/v4/questions/";
     public static final String ZHIHU_API_PARAM = "/answers?include=data[*].is_normal,admin_closed_comment,reward_info,is_collapsed,annotation_action,annotation_detail,collapse_reason,is_sticky,collapsed_by,suggest_edit,comment_count,can_comment,content,editable_content,voteup_count,reshipment_settings,comment_permission,created_time,updated_time,review_info,relevant_info,question,excerpt,relationship.is_authorized,is_author,voting,is_thanked,is_nothelp;data[*].mark_infos[*].url;data[*].author.follower_count,badge[?(type=best_answerer)].topics&sort_by=default";
-    public static final String ZHIHU_COOKIE = "_zap=8e6ff4fe-12e7-4b4c-a5b7-9112cdd5ce8c; _xsrf=zwRIfedfMoA2A4YLFPxn5O9i3gKxFevS; d_c0=\"AMCj6cYYGw-PToPCZkP5bFoOEuKASQfVtvE=|1552296472\"; z_c0=\"2|1:0|10:1552296478|4:z_c0|92:Mi4xMlg4MUFBQUFBQUFBd0tQcHhoZ2JEeVlBQUFCZ0FsVk5Ibmh6WFFBbGlPYzBmSFFCLVk2b1hGb1VINTU4Y3hlakRn|6de289a27430536214e21f8e285f8a0aab410e81cce472f84d5f4c52f89a791f\"; __utmv=51854390.100-1|2=registration_date=20140209=1^3=entry_date=20140209=1; __utmz=51854390.1553496653.2.2.utmcsr=zhihu.com|utmccn=(referral)|utmcmd=referral|utmcct=/question/58116374; q_c1=bb487bc8800946949ea234c803bc2245|1555033486000|1552297706000; __utma=51854390.1365540508.1552297708.1553496653.1556075904.3; tst=r; tgw_l7_route=4860b599c6644634a0abcd4d10d37251";
+    public static final String ZHIHU_COOKIE = "_zap=1d10a086-23f6-44c5-b191-3e8f3e1183c2; d_c0=\"ADDkdxUBGg-PTt0pJdZ9XgJ7heOpOrVZyp0=|1552223152\"; __gads=ID=9b714a10c40bbf30:T=1556032272:S=ALNI_MbJ5hCcq-OSitpnGmw-3860cnZxug; _xsrf=dlJZ52SNWVtDp0lZfBu7AkDIDWmmlnEg; capsion_ticket=\"2|1:0|10:1556121554|14:capsion_ticket|44:ZjZjMGUyNzUwM2FmNGY2MWEzOTkwMmZmMGRmNDc1OTI=|bd38703d8cd754c76b65ccd62ff5805d45a624dcf9fa6ebc22e3869d3e1bb3e8\"; z_c0=\"2|1:0|10:1556121556|4:z_c0|92:Mi4xMlg4MUFBQUFBQUFBTU9SM0ZRRWFEeVlBQUFCZ0FsVk4xTld0WFFET1JLSlpNdV91a2xkTEVVdFdxNF83allsMUJ3|adbc3dcfc86246b582966e1960e7112127f6c3157626765f184e32f11ecdd905\"; q_c1=9693076a86e440e18ea6c4c81da0ea6b|1558021846000|1552223153000; tgw_l7_route=a37704a413efa26cf3f23813004f1a3b; tst=r";
     public static final String HTTP_HOST = "www.zhihu.com";
     public static final String HTTP_ORIGIN = "https://www.zhihu.com";
     public static final String HTTP_ACCEPT = "application/json, text/plain, */*";
@@ -37,5 +37,5 @@ public class SpiderConfig {
     /**
      * 图片下载基础存储路径
      */
-    public static final String FILE_TARGET_PATH = "C:/Users/jayhe/Pictures/SpiderMan/";
+    public static final String FILE_TARGET_PATH = "C:/Users/lwf14/Pictures/SpiderMan/";
 }

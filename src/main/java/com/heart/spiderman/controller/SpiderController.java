@@ -1,5 +1,7 @@
 package com.heart.spiderman.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.heart.spiderman.model.Answer;
 import com.heart.spiderman.model.Image;
 import com.heart.spiderman.model.Spider;
@@ -39,11 +41,9 @@ public class SpiderController {
      * @param questionId
      */
     @RequestMapping(value = "/spider/{questionId}", method = RequestMethod.GET)
-//    @ResponseBody
-    public ModelAndView spiderManRun(@PathVariable("questionId") String questionId) {
+    @ResponseBody
+    public String spiderManRun(@PathVariable("questionId") String questionId) {
         logger.info("questionId = {}，开始获取图片......", questionId);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("spiderman");
         try {
             List<Answer> answerList = HttpUtils.spiderMan(new Spider().buildSpider(questionId));//获取所有回答
             ExecutorService executorService = Executors.newFixedThreadPool(8);//创建线程池
@@ -82,17 +82,23 @@ public class SpiderController {
                 }
             }
             logger.info("共{} 条回答，{} 纯文字回答，{} 匿名用户，{} 图片，开始下载......", answerList.size(), totalEmpty, totalAnonymous, totalPhoto);
-            for (Map<String, String> map : answerUrlMapList) {
-                String authorName = map.get("authorName");
-                String url = map.get("url");
-                    FileDownloadUtils fileDownloadUtils = new FileDownloadUtils(questionTitle, authorName, url);
-                    executorService.execute(fileDownloadUtils);
+//            for (Map<String, String> map : answerUrlMapList) {
+//                String authorName = map.get("authorName");
+//                String url = map.get("url");
+//                    FileDownloadUtils fileDownloadUtils = new FileDownloadUtils(questionTitle, authorName, url);
+//                    executorService.execute(fileDownloadUtils);
+//            }
+            JSONArray jsonArray = new JSONArray();
+            for (String url : urls) {
+                JSONObject jsonObject = new JSONObject(1);
+                jsonObject.put("src", url);
+                jsonArray.add(jsonObject);
             }
-            modelAndView.addObject("imageList", imageList);
+            return jsonArray.toJSONString();
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        return modelAndView;
+        return null;
     }
 
 }
