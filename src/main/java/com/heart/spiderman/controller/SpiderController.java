@@ -1,21 +1,18 @@
 package com.heart.spiderman.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.heart.spiderman.model.Answer;
 import com.heart.spiderman.model.Spider;
-import com.heart.spiderman.utils.FileDownloadUtils;
 import com.heart.spiderman.utils.HttpUtils;
-import com.heart.spiderman.utils.URLParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -31,27 +28,46 @@ public class SpiderController {
     private static Logger logger = LoggerFactory.getLogger(SpiderController.class);
 
     @Autowired
-    private ThreadPoolExecutor threadPoolExecutor;
+    private ThreadPoolExecutor threadPoolExecutor1;
 
-    @RequestMapping(value = "/spider/{questionId}/{answerNum}", method = RequestMethod.GET)
-    @ResponseBody
-    public String spiderManRun(@PathVariable("questionId") String questionId, @PathVariable("answerNum") int answerNum) {
-        logger.info("questionId = {}, 开始获取图片......", questionId);
+    @Autowired
+    private ThreadPoolExecutor threadPoolExecutor2;
 
-        Spider spider = new Spider().buildSpider(questionId);
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public ModelAndView index() {
+        return new ModelAndView("index");
+    }
+
+    @RequestMapping(value = "spider", method = RequestMethod.POST)
+    public ModelAndView spiderManRun(@RequestParam("questionId") String questionId, @RequestParam("answerNum") int answerNum, @RequestParam(value = "mergeFile", required = true, defaultValue = "0") int mergeFile) {
+        logger.info("questionId = {},answerNum = {},mergeFile = {}, 开始获取图片......", questionId, answerNum, mergeFile);
+        //268395554
+
         int limit = 20;
         int offset = 0;
         int total = answerNum;
-        if (total - (limit + offset) != 0) {
-            if (total - (limit + offset) > 20) {
-                spider.setOffset(limit + offset);
+
+        for (int i = 0; ; i++) {
+            Spider spider = new Spider().buildSpider(questionId);
+            spider.setLimit(limit);
+            spider.setOffset(offset);
+            spider.setTotal(answerNum);
+            threadPoolExecutor1.execute(new HttpUtils(spider, threadPoolExecutor2));
+
+            if (total - (limit + offset) != 0) {
+                if (total - (limit + offset) > 20) {
+                    offset = limit + offset;
+                } else {
+                    int temp = limit + offset;
+                    limit = total - temp;
+                    offset = temp;
+                }
             } else {
-                spider.setLimit(total - (limit + offset));
-                spider.setOffset(limit + offset);
+                logger.info("解析完成，等待下载完成....");
+                break;
             }
         }
-
-        return null;
+        return new ModelAndView("success");
     }
 
     /**

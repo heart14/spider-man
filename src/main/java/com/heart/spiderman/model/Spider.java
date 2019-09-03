@@ -159,8 +159,6 @@ public class Spider {
         this.setReferer(SpiderConfig.HTTP_REFERE + questionId);
         this.setX_udid(SpiderConfig.HTTP_XUDID);
         this.setUser_agent(SpiderConfig.HTTP_USER_AGENT);
-        this.setLimit(SpiderConfig.LIMIT);
-        this.setOffset(SpiderConfig.OFFSET);
         return this;
     }
 }

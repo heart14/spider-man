@@ -31,14 +31,14 @@ public class HttpUtils implements Runnable {
 
     private Spider spider;
 
-    @Autowired
-    private ThreadPoolExecutor threadPoolExecutor;
+    private ThreadPoolExecutor threadPoolExecutor2;
 
     public HttpUtils() {
     }
 
-    public HttpUtils(Spider spider) {
+    public HttpUtils(Spider spider,ThreadPoolExecutor threadPoolExecutor2) {
         this.spider = spider;
+        this.threadPoolExecutor2 = threadPoolExecutor2;
     }
 
     @Override
@@ -91,11 +91,11 @@ public class HttpUtils implements Runnable {
                 if (urlListTrim.size() > 0) {
                     for (String s : urlListTrim) {
                         FileDownloadUtils fileDownloadUtils = new FileDownloadUtils(questionTitle, authorName, s);
-                        threadPoolExecutor.execute(fileDownloadUtils);
+                        threadPoolExecutor2.execute(fileDownloadUtils);
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.error("获取答案 {}~{} 出错 :{}", this.spider.getOffset(), this.spider.getOffset() + this.spider.getLimit(), e.getMessage());
         }
     }

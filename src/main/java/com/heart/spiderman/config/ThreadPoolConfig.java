@@ -34,14 +34,26 @@ public class ThreadPoolConfig {
      */
     private long keepAliveSeconds = 0L;
 
-    @Bean(name = "threadPoolExecutor")
-    public ThreadPoolExecutor threadPoolExecutor() {
+    @Bean(name = "threadPoolExecutor1")
+    public ThreadPoolExecutor threadPoolExecutor1() {
         return new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), new ThreadFactory() {
             private final AtomicInteger tCount = new AtomicInteger(1);
 
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "heart14 #" + tCount.getAndIncrement());
+                return new Thread(r, "search-thread #" + tCount.getAndIncrement());
+            }
+        });
+    }
+
+    @Bean(name = "threadPoolExecutor2")
+    public ThreadPoolExecutor threadPoolExecutor2() {
+        return new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), new ThreadFactory() {
+            private final AtomicInteger tCount = new AtomicInteger(1);
+
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(r, "download-thread #" + tCount.getAndIncrement());
             }
         });
     }
