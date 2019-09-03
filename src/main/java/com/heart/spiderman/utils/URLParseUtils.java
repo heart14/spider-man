@@ -59,6 +59,14 @@ public class URLParseUtils {
      * @return
      */
     public static String doFetchUID(String url) {
-        return url.split("zhimg.com/")[1].replaceAll("/", "").substring(0, 12) + ".jpg";
+        String s = url.split("zhimg.com/")[1].replaceAll("/", "").substring(0, 12) + ".jpg";
+        if (s.contains("v2-")) {
+            s = s.replaceAll("v2-", "");
+        }
+        return s;
+    }
+
+    public static String doCheckPath(String path) {
+        return path.replaceAll("[?]", "？");
     }
 }

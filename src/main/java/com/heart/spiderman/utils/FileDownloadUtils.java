@@ -36,7 +36,7 @@ public class FileDownloadUtils implements Runnable {
     public void run() {
 
         //构造图片保存文件夹，以问题标题为名
-        String filePath = SpiderConfig.FILE_TARGET_PATH + this.questionTitle;
+        String filePath = (SpiderConfig.FILE_TARGET_PATH + this.questionTitle).replaceAll("[?]","？");
         File file = new File(filePath);
         //文件夹不存在则创建文件夹
         if (!file.exists()) {
@@ -44,14 +44,18 @@ public class FileDownloadUtils implements Runnable {
         }
 
         //构造图片保存文件夹，以作者昵称为名
-        String photoPath = filePath + "/" + this.authorName;
-        File photoDir = new File(photoPath);
-        //文件夹不存在则创建文件夹
-        if (!photoDir.exists()) {
-            boolean mkdirs = photoDir.mkdirs();
-        }
+//        String photoPath = filePath + "/" + this.authorName;
+        String photoPath = filePath;
+
+//        File photoDir = new File(photoPath);
+//        //文件夹不存在则创建文件夹
+//        if (!photoDir.exists()) {
+//            boolean mkdirs = photoDir.mkdirs();
+//        }
+
         //构造图片文件
-        File photo = new File(photoPath + "/" + URLParseUtils.doFetchUID(this.url));
+        File photo = new File(photoPath + "/" + this.authorName + "_" + URLParseUtils.doFetchUID(this.url));
+//        File photo = new File(photoPath + "/" + URLParseUtils.doFetchUID(this.url));
         //如果图片文件已存在，则忽略
         if (photo.exists()) {
             logger.info("[{}][{}][{}] 图片已存在", Thread.currentThread().getName(), this.authorName, URLParseUtils.doFetchUID(this.url));
