@@ -91,6 +91,7 @@ public class SpiderController {
                 threadPoolExecutor.execute(fileDownloadUtils);
             }
             jsonObject.put("src", urls);
+            return jsonObject.toJSONString();
         } catch (Exception e) {
             logger.error("zhihu图片解析失败 :{}", e.getMessage());
         }
