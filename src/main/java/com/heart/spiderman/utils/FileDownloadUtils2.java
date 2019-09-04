@@ -10,23 +10,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * @ClassName: FileDownloadUtils
+ * @ClassName: FileDownloadUtils2
  * @Description:
  * @Author: Heart
- * @Date: 2019/5/20 13:42
+ * @Date: 2019/9/4 09:33
  */
-public class FileDownloadUtils implements Runnable {
+public class FileDownloadUtils2 implements Runnable {
 
-    public static final Logger logger = LoggerFactory.getLogger(FileDownloadUtils.class);
+    public static final Logger logger = LoggerFactory.getLogger(FileDownloadUtils2.class);
 
     private String questionTitle;
     private String authorName;
     private String url;
 
-    public FileDownloadUtils() {
+    public FileDownloadUtils2() {
     }
 
-    public FileDownloadUtils(String questionTitle, String authorName, String url) {
+    public FileDownloadUtils2(String questionTitle, String authorName, String url) {
         this.questionTitle = questionTitle;
         this.authorName = authorName;
         this.url = url;
@@ -43,17 +43,8 @@ public class FileDownloadUtils implements Runnable {
             boolean mkdirs = file.mkdirs();
         }
 
-        //构造图片保存文件夹，以作者昵称为名
-        String photoPath = filePath + "/" + this.authorName;
-
-        File photoDir = new File(photoPath);
-        //文件夹不存在则创建文件夹
-        if (!photoDir.exists()) {
-            boolean mkdirs = photoDir.mkdirs();
-        }
-
         //构造图片文件
-        File photo = new File(photoPath + "/" + URLParseUtils.doFetchUID(this.url));
+        File photo = new File(filePath + "/" + this.authorName + "_" + URLParseUtils.doFetchUID(this.url));
         //如果图片文件已存在，则忽略
         if (photo.exists()) {
             logger.info("[{}][{}][{}] 图片已存在", Thread.currentThread().getName(), this.authorName, URLParseUtils.doFetchUID(this.url));

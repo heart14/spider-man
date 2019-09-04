@@ -41,7 +41,7 @@ public class ThreadPoolConfig {
 
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "search-thread #" + tCount.getAndIncrement());
+                return new Thread(r, "t-search #" + tCount.getAndIncrement());
             }
         });
     }
@@ -53,7 +53,7 @@ public class ThreadPoolConfig {
 
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "download-thread #" + tCount.getAndIncrement());
+                return new Thread(r, "t-download #" + tCount.getAndIncrement());
             }
         });
     }

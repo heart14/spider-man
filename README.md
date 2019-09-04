@@ -1,7 +1,6 @@
 spider man for zhihu.com
 
-启动项目，在页面输入问题ID即可展示该问题下所有图片
-同时后台下载所有图片到本地
+启动项目，在页面（http://localhost:8080/index）输入问题ID即可下载该问题下所有图片到本地
 
 启动前需要修改SpiderConfig.java中的：
 

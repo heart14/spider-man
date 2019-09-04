@@ -7,7 +7,6 @@ import com.heart.spiderman.model.Answer;
 import com.heart.spiderman.model.Spider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class HttpUtils implements Runnable {
     public HttpUtils() {
     }
 
-    public HttpUtils(Spider spider,ThreadPoolExecutor threadPoolExecutor2) {
+    public HttpUtils(Spider spider, ThreadPoolExecutor threadPoolExecutor2) {
         this.spider = spider;
         this.threadPoolExecutor2 = threadPoolExecutor2;
     }
@@ -90,8 +89,13 @@ public class HttpUtils implements Runnable {
                 //遍历图片url集合，进行下载
                 if (urlListTrim.size() > 0) {
                     for (String s : urlListTrim) {
-                        FileDownloadUtils fileDownloadUtils = new FileDownloadUtils(questionTitle, authorName, s);
-                        threadPoolExecutor2.execute(fileDownloadUtils);
+                        if (spider.getMergeFile() == 0) {
+                            FileDownloadUtils fileDownloadThread = new FileDownloadUtils(questionTitle, authorName, s);
+                            threadPoolExecutor2.execute(fileDownloadThread);
+                        } else if (spider.getMergeFile() == 1) {
+                            FileDownloadUtils2 fileDownloadThread = new FileDownloadUtils2(questionTitle, authorName, s);
+                            threadPoolExecutor2.execute(fileDownloadThread);
+                        }
                     }
                 }
             }

@@ -20,11 +20,11 @@ public class URLParseUtils {
      */
     public static List<String> doRegexMatcher(String srcString) {
 
-        Pattern jpgPattern = Pattern.compile(SpiderConfig.JPG_REGEX_Pattern);
-        Pattern jpegPattern = Pattern.compile(SpiderConfig.JPEG_REGEX_Pattern);
-        Pattern pngPattern = Pattern.compile(SpiderConfig.PNG_REGEX_Pattern);
-        Pattern bmpPattern = Pattern.compile(SpiderConfig.BMP_REGEX_Pattern);
-        Pattern gifPattern = Pattern.compile(SpiderConfig.GIF_REGEX_Pattern);
+        Pattern jpgPattern = Pattern.compile(SpiderConfig.JPG_REGEX_PATTERN);
+        Pattern jpegPattern = Pattern.compile(SpiderConfig.JPEG_REGEX_PATTERN);
+        Pattern pngPattern = Pattern.compile(SpiderConfig.PNG_REGEX_PATTERN);
+        Pattern bmpPattern = Pattern.compile(SpiderConfig.BMP_REGEX_PATTERN);
+        Pattern gifPattern = Pattern.compile(SpiderConfig.GIF_REGEX_PATTERN);
 
         Matcher jpgMatcher = jpgPattern.matcher(srcString);
         Matcher jpegMatcher = jpegPattern.matcher(srcString);

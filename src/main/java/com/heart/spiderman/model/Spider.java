@@ -22,11 +22,12 @@ public class Spider {
     private int total;
     private int limit;
     private int offset;
+    private int mergeFile;
 
     public Spider() {
     }
 
-    public Spider(String url, String referer, String origin, String x_udid, String accept, String connection, String host, String cookie, String user_agent, int total, int limit, int offset) {
+    public Spider(String url, String referer, String origin, String x_udid, String accept, String connection, String host, String cookie, String user_agent, int total, int limit, int offset, int mergeFile) {
         this.url = url;
         this.referer = referer;
         this.origin = origin;
@@ -39,6 +40,7 @@ public class Spider {
         this.total = total;
         this.limit = limit;
         this.offset = offset;
+        this.mergeFile = mergeFile;
     }
 
     public String getUrl() {
@@ -146,6 +148,15 @@ public class Spider {
 
     public Spider setOffset(int offset) {
         this.offset = offset;
+        return this;
+    }
+
+    public int getMergeFile() {
+        return mergeFile;
+    }
+
+    public Spider setMergeFile(int mergeFile) {
+        this.mergeFile = mergeFile;
         return this;
     }
 

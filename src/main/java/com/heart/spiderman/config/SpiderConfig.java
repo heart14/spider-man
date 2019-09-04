@@ -9,6 +9,11 @@ package com.heart.spiderman.config;
 public class SpiderConfig {
 
     /**
+     * 图片下载基础存储路径
+     */
+    public static final String FILE_TARGET_PATH = "C:/Users/jayhe/Pictures/SpiderMan/";
+
+    /**
      * 知乎以及HTTP请求相关参数
      */
     public static final String ZHIHU_API = "https://www.zhihu.com/api/v4/questions/";
@@ -28,14 +33,10 @@ public class SpiderConfig {
      * 程序中用到的正则表达式
      * 其实只会用到.jpg的
      */
-    public static final String JPG_REGEX_Pattern = "https://[^\\s]*?_r.jpg";
-    public static final String JPEG_REGEX_Pattern = "https://[^\\s]*?_r.jpeg";
-    public static final String PNG_REGEX_Pattern = "https://[^\\s]*?_r.png";
-    public static final String BMP_REGEX_Pattern = "https://[^\\s]*?_r.bmp";
-    public static final String GIF_REGEX_Pattern = "https://[^\\s]*?_r.gif";
+    public static final String JPG_REGEX_PATTERN = "https://[^\\s]*?_r.jpg";
+    public static final String JPEG_REGEX_PATTERN = "https://[^\\s]*?_r.jpeg";
+    public static final String PNG_REGEX_PATTERN = "https://[^\\s]*?_r.png";
+    public static final String BMP_REGEX_PATTERN = "https://[^\\s]*?_r.bmp";
+    public static final String GIF_REGEX_PATTERN = "https://[^\\s]*?_r.gif";
 
-    /**
-     * 图片下载基础存储路径
-     */
-    public static final String FILE_TARGET_PATH = "C:/Users/lwf14/Pictures/SpiderMan/";
 }
