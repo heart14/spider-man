@@ -3,7 +3,7 @@ package com.heart.spiderman.model;
 import com.heart.spiderman.config.SpiderConfig;
 
 /**
- * @ClassName:Spider
+ * @ClassName: Spider
  * @Description:
  * @Author: Heart
  * @Date: 2019/5/20 11:02

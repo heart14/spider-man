@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @ClassName:URLParseUtils
+ * @ClassName: URLParseUtils
  * @Description:
  * @Author: Heart
  * @Date: 2019/5/20 13:31

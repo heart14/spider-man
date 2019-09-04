@@ -1,7 +1,7 @@
 package com.heart.spiderman.model;
 
 /**
- * @ClassName:Answer
+ * @ClassName: Answer
  * @Description:
  * @Author: Heart
  * @Date: 2019/5/20 10:59

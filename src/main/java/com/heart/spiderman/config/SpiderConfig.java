@@ -1,7 +1,7 @@
 package com.heart.spiderman.config;
 
 /**
- * @ClassName:SpiderConfig
+ * @ClassName: SpiderConfig
  * @Description:
  * @Author: Heart
  * @Date: 2019/5/20 11:04

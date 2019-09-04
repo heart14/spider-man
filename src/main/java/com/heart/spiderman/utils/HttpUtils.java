@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * @ClassName:HttpUtils
+ * @ClassName: HttpUtils
  * @Description:
  * @Author: Heart
  * @Date: 2019/5/20 11:05
