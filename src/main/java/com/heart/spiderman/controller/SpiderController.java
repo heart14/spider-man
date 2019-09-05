@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -21,7 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @Date: 2019/5/20 11:04
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping
 public class SpiderController {
 
     private static Logger logger = LoggerFactory.getLogger(SpiderController.class);
@@ -37,8 +39,9 @@ public class SpiderController {
         return new ModelAndView("index");
     }
 
-    @RequestMapping(value = "spider", method = RequestMethod.POST)
-    public ModelAndView spiderManRun(@RequestParam("questionId") String questionId, @RequestParam(value = "mergeFile", required = true, defaultValue = "0") int mergeFile) {
+    @RequestMapping(value = "/spider", method = RequestMethod.POST)
+    @ResponseBody
+    public String spiderManRun(@RequestParam("questionId") String questionId, @RequestParam(value = "mergeFile", required = true, defaultValue = "0") int mergeFile) {
         logger.info("questionId = {},mergeFile = {}, 开始获取图片......", questionId, mergeFile);
         //268395554
 
@@ -67,6 +70,6 @@ public class SpiderController {
                 break;
             }
         }
-        return new ModelAndView("success");
+        return "ok";
     }
 }

@@ -11,7 +11,7 @@ public class SpiderConfig {
     /**
      * 图片下载基础存储路径
      */
-    public static final String FILE_TARGET_PATH = "C:/Users/jayhe/Pictures/SpiderMan/";
+    public static final String FILE_TARGET_PATH = "/home/liwenfei/Public/";
 
     /**
      * 知乎以及HTTP请求相关参数

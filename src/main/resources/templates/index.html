@@ -9,12 +9,23 @@
     <script>
         function paramCheck() {
             var $questionId = $("#questionIdInput").val();
-            if ($questionId === '') {
-                alert("请输入Question Id!");
-                return;
-            }
-            $("#spiderForm").submit();
-            alert("开始下载，请查看本地文件夹....");
+            var $mergeFile = $("#mergeFileCheckbox").val();
+            console.log("fasong");
+            $.ajax({
+                type: "POST",
+                url: "spider",
+                data: {
+                    "questionId": $questionId,
+                    "mergeFile": $mergeFile
+                },
+                contentType: "application/x-www-form-urlencoded;chartset=utf-8",
+                success: function (result) {
+                    if (result === 'ok') {
+                        alert("正在下载...");
+                        window.location.reload();
+                    }
+                }
+            });
         }
     </script>
 </head>
